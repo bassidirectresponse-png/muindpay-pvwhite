@@ -91,22 +91,25 @@ export default function App() {
           return acc;
         }, {} as any);
 
-        const prompt = `Atue como um Copywriter de Resposta Direta de Elite com foco em conversão e persuasão. Crie a copy para uma VSL (Text Sales Letter) de um funil de vendas baseado exatamente nos detalhes deste produto:
+        const prompt = `Você é um Copywriter de Resposta Direta de Elite focado em produtos físicos e digitais "White" (totalmente compliance com políticas de anúncios, sem promessas agressivas, falsas ou milagrosas). A abordagem deve ser altamente profissional, sofisticada e crível, focada no real mecanismo de ação e nos benefícios concretos, semelhante ao marketing de SaaS B2B de alto padrão.
+
+Crie a copy para uma TSL (Text Sales Letter) premium de um funil de vendas baseado exatamente nos detalhes deste produto:
 Nome do Produto: ${formData.productName}
 Descrição: ${formData.productDescription}
-Idioma: ${formData.language} (Gere todo o conteúdo no idioma solicitado).
+Idioma: ${formData.language} (Gere todo o conteúdo estritamente neste idioma).
 
-O usuário definiu que o funil terá exatas ${pages.length} página(s). Mapeie o funil nas seguintes páginas:
+O usuário definiu que o funil terá exatas ${pages.length} página(s). Mapeie o funil nas seguintes páginas (importante para o upsell soar complementar):
 ${pagesMapText}
 
-Para CADA página, retorne um objeto com estas propriedades obrigatórias:
-"title": O título principal ultra chamativo e que prenda a pessoa na hora.
-"subtitle": Um subtítulo persuasivo ou promessa secundária para embasar a compra.
-"benefits": Um array com 3 itens (frase curta destacando benefício/alívio).
-"cta": Texto persuasivo para o botão de compra.
+Para CADA página, retorne um objeto JSON com estas propriedades obrigatórias:
+"title": O título principal profundo, elegante e altamente persuasivo, mas 100% white-hat (sem exageros milagrosos). Deve soar como a promessa de uma marca premium.
+"subtitle": Um subtítulo bem elaborado (2 a 3 linhas) e crível que explique como o método/produto funciona na prática e qual o problema principal resolve.
+"benefits": Um array com exatos 3 itens descritivos (cada um com 2 ou 3 frases curtas), detalhando a qualidade superior, mecanismo único ou usabilidade de forma concreta e racional.
+"cta": Texto persuasivo e claro para o botão de compra (ex: "Acessar Plataforma Agora", "Garantir Minha Vaga", etc).
 
-Retorne APENAS um JSON válido estritão, sem formatação markdown, pronto para ser lido por JSON.parse().
-Exemplo:
+Não use clichês baratos de marketing de afiliados. Pense como uma marca como a Apple ou Notion vendendo seu produto. 
+Retorne APENAS um JSON válido estrito, sem \`\`\`json ou marcações markdown ao redor, pronto para ser lido por JSON.parse().
+Exemplo do formato:
 ${JSON.stringify(exampleJson, null, 2)}`;
 
         const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${formData.geminiKey}`, {
@@ -181,10 +184,14 @@ legalTexts.warning.title = labels.warning;
 
       files.push({ name: 'layout.js', content: layoutJs, type: 'js' });
 
+      // Generate a random theme variant for this generation run (0, 1, or 2)
+      const themeVariant = Math.floor(Math.random() * 3);
+
       // 2. Process HTML files based on pages array
       pages.forEach((p, idx) => {
         const fileName = idx === 0 ? 'index.html' : `${p.id}.html`;
-        let rawHtml = generatePageTemplate(p.id, formData.language, idx, p.checkoutUrl);
+        // Pass themeVariant as a 5th argument
+        let rawHtml = generatePageTemplate(p.id, formData.language, idx, p.checkoutUrl, themeVariant);
 
         rawHtml = rawHtml.replace(/\{\{COMPANY_NAME\}\}/g, formData.companyName || 'Guilherme Augusto Bassi');
         rawHtml = rawHtml.replace(/\{\{COMPANY_EMAIL\}\}/g, formData.companyEmail || 'bassev7n@gmail.com');

@@ -425,7 +425,7 @@ function closeModal() {
 `;
 
 // Dynamic page generator
-export function generatePageTemplate(pageKey: string, lang: string, index: number, checkoutLink: string): string {
+export function generatePageTemplate(pageKey: string, lang: string, index: number, checkoutLink: string, themeVariant: number = 0): string {
     const styles = [
         { color: 'indigo', icon: 'zap', gradient: 'from-indigo-400 via-blue-500 to-purple-500', shadow: 'shadow-indigo-500/20', ring: 'focus:ring-indigo-500', bgGlow: 'bg-indigo-500/20' },
         { color: 'rose', icon: 'star', gradient: 'from-rose-400 via-pink-500 to-purple-500', shadow: 'shadow-rose-500/20', ring: 'focus:ring-rose-500', bgGlow: 'bg-rose-500/20' },
@@ -434,9 +434,165 @@ export function generatePageTemplate(pageKey: string, lang: string, index: numbe
         { color: 'cyan', icon: 'flame', gradient: 'from-cyan-400 via-blue-500 to-indigo-500', shadow: 'shadow-cyan-500/20', ring: 'focus:ring-cyan-500', bgGlow: 'bg-cyan-500/20' }
     ];
 
-    // Cycle through styles based on the index
     const style = styles[index % styles.length];
     const safeCheckoutLink = checkoutLink || '#';
+
+    let mainContent = '';
+
+    if (themeVariant === 0) {
+        // Variant 0: Aura High-End (Center focused, Bento Grid below)
+        mainContent = `
+        <div class="glass-card rounded-3xl p-8 md:p-16 w-full relative overflow-hidden group" data-aos="fade-up" data-aos-duration="1000">
+            <div class="absolute inset-0 bg-gradient-to-tr from-white/[0.02] via-transparent to-white/[0.08] pointer-events-none"></div>
+            
+            <div class="relative z-10 flex flex-col items-center text-center">
+                <div data-aos="zoom-in" data-aos-delay="200" data-aos-duration="600" class="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center mb-8">
+                    <div class="absolute inset-0 rounded-2xl bg-gradient-to-br ${style.gradient} opacity-20 blur-md"></div>
+                    <div class="relative flex items-center justify-center w-full h-full rounded-2xl bg-gradient-to-br ${style.gradient} border border-white/20 shadow-2xl p-[1px]">
+                        <div class="absolute inset-0 rounded-2xl bg-black/20 backdrop-blur-sm"></div>
+                        <i data-lucide="${style.icon}" class="w-8 h-8 md:w-10 md:h-10 text-white relative z-10 drop-shadow-md"></i>
+                    </div>
+                </div>
+
+                <h1 data-i18n="title" data-aos="fade-up" data-aos-delay="300" class="text-4xl md:text-5xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 mb-6 tracking-tighter leading-[1.1] max-w-4xl drop-shadow-sm"></h1>
+                <p data-i18n="subtitle" data-aos="fade-up" data-aos-delay="400" class="text-lg md:text-xl text-slate-400 mb-14 max-w-2xl leading-relaxed font-medium tracking-tight"></p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16 w-full" data-aos="fade-up" data-aos-delay="500">
+                    <div class="relative p-[1px] rounded-2xl overflow-hidden group/bento bg-gradient-to-b from-white/10 to-transparent hover:from-white/20 transition-all duration-500">
+                        <div class="absolute inset-0 bg-[#0a0a0a] rounded-2xl m-[1px]"></div>
+                        <div class="relative bg-white/[0.02] backdrop-blur-sm h-full rounded-2xl p-6 text-left hover:bg-white/[0.04] transition-colors">
+                            <div class="bg-white/10 w-10 h-10 rounded-xl flex items-center justify-center mb-4 border border-white/5 group-hover/bento:scale-110 group-hover/bento:bg-white/20 transition-all duration-300">
+                                <i data-lucide="check" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <p data-i18n="benefit1" class="text-slate-300 font-medium text-sm leading-relaxed"></p>
+                        </div>
+                    </div>
+                    <div class="relative p-[1px] rounded-2xl overflow-hidden group/bento bg-gradient-to-b from-white/10 to-transparent hover:from-white/20 transition-all duration-500" data-aos="fade-up" data-aos-delay="600">
+                        <div class="absolute inset-0 bg-[#0a0a0a] rounded-2xl m-[1px]"></div>
+                        <div class="relative bg-white/[0.02] backdrop-blur-sm h-full rounded-2xl p-6 text-left hover:bg-white/[0.04] transition-colors">
+                            <div class="bg-white/10 w-10 h-10 rounded-xl flex items-center justify-center mb-4 border border-white/5 group-hover/bento:scale-110 group-hover/bento:bg-white/20 transition-all duration-300">
+                                <i data-lucide="shield" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <p data-i18n="benefit2" class="text-slate-300 font-medium text-sm leading-relaxed"></p>
+                        </div>
+                    </div>
+                    <div class="relative p-[1px] rounded-2xl overflow-hidden group/bento bg-gradient-to-b from-white/10 to-transparent hover:from-white/20 transition-all duration-500" data-aos="fade-up" data-aos-delay="700">
+                        <div class="absolute inset-0 bg-[#0a0a0a] rounded-2xl m-[1px]"></div>
+                        <div class="relative bg-white/[0.02] backdrop-blur-sm h-full rounded-2xl p-6 text-left hover:bg-white/[0.04] transition-colors">
+                            <div class="bg-white/10 w-10 h-10 rounded-xl flex items-center justify-center mb-4 border border-white/5 group-hover/bento:scale-110 group-hover/bento:bg-white/20 transition-all duration-300">
+                                <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <p data-i18n="benefit3" class="text-slate-300 font-medium text-sm leading-relaxed"></p>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="zoom-in" data-aos-delay="800" class="w-full flex flex-col items-center">
+                    <a href="${safeCheckoutLink}" class="relative inline-flex h-16 w-full md:w-auto overflow-hidden rounded-full p-[2px] focus:outline-none hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300 ${style.shadow} shadow-2xl group">
+                        <span class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)] opacity-70 group-hover:opacity-100 transition-opacity duration-300"></span>
+                        <span class="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-8 py-2 md:px-12 text-lg font-bold text-white backdrop-blur-3xl border border-white/10 relative z-10">
+                            <span data-i18n="cta" class="tracking-wide"></span>
+                            <i data-lucide="arrow-right" class="ml-3 w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300"></i>
+                        </span>
+                    </a>
+                    <div class="mt-8 flex items-center justify-center space-x-2 text-sm text-slate-500 font-medium">
+                        <i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i><span>End-to-end encrypted checkout</span>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    } else if (themeVariant === 1) {
+        // Variant 1: Atlas/Enterprise Split (Two Columns on Desktop)
+        mainContent = `
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full glass-card p-8 md:p-12 rounded-3xl relative overflow-hidden" data-aos="fade-up" data-aos-duration="1000">
+            <div class="absolute -right-64 -top-64 w-[500px] h-[500px] bg-gradient-to-br ${style.gradient} opacity-10 rounded-full blur-[100px] pointer-events-none"></div>
+            
+            <div class="flex flex-col items-start text-left relative z-10">
+                <div data-aos="fade-right" data-aos-delay="200" class="inline-flex items-center space-x-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-8">
+                    <div class="w-2 h-2 rounded-full bg-${style.color}-500 animate-pulse"></div>
+                    <span class="text-xs font-semibold tracking-widest uppercase text-slate-300">Premium Access</span>
+                </div>
+                
+                <h1 data-i18n="title" data-aos="fade-right" data-aos-delay="300" class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 tracking-tighter leading-[1.1] drop-shadow-sm"></h1>
+                <p data-i18n="subtitle" data-aos="fade-right" data-aos-delay="400" class="text-lg text-slate-400 mb-10 max-w-xl leading-relaxed font-medium"></p>
+                
+                <ul class="space-y-4 mb-12 w-full max-w-md">
+                    <li data-aos="fade-right" data-aos-delay="500" class="flex items-start space-x-3">
+                        <div class="mt-1 bg-white/10 p-1 rounded border border-white/5"><i data-lucide="check" class="w-4 h-4 text-white"></i></div>
+                        <span data-i18n="benefit1" class="text-slate-300 font-medium text-sm leading-relaxed"></span>
+                    </li>
+                    <li data-aos="fade-right" data-aos-delay="600" class="flex items-start space-x-3">
+                        <div class="mt-1 bg-white/10 p-1 rounded border border-white/5"><i data-lucide="check" class="w-4 h-4 text-white"></i></div>
+                        <span data-i18n="benefit2" class="text-slate-300 font-medium text-sm leading-relaxed"></span>
+                    </li>
+                </ul>
+
+                <div data-aos="fade-right" data-aos-delay="700" class="w-full">
+                    <a href="${safeCheckoutLink}" class="inline-flex h-14 w-full md:w-auto items-center justify-center rounded-xl bg-white px-8 text-sm font-bold text-slate-900 transition-all hover:bg-slate-200 focus:outline-none hover:scale-[1.02] active:scale-[0.98] shadow-lg ${style.shadow} mb-4">
+                        <span data-i18n="cta" class="tracking-wide"></span>
+                        <i data-lucide="arrow-right" class="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1"></i>
+                    </a>
+                    <div class="flex items-center space-x-2 text-sm text-slate-500 font-medium">
+                        <i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i><span>100% Secure Checkout</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="relative w-full h-full min-h-[400px] rounded-2xl overflow-hidden border border-white/10 bg-black/50" data-aos="zoom-in" data-aos-delay="400">
+                <div class="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <!-- Abstract Visual representation -->
+                    <div class="relative w-48 h-48 animate-spin-slow">
+                        <div class="absolute inset-0 rounded-full border-b-2 border-l-2 border-${style.color}-500/50"></div>
+                        <div class="absolute inset-4 rounded-full border-t-2 border-r-2 border-white/30 animate-spin-slow" style="animation-direction: reverse;"></div>
+                        <div class="absolute inset-8 rounded-full border-b-2 border-r-2 border-${style.color}-400/80"></div>
+                    </div>
+                    <div class="absolute flex flex-col items-center justify-center w-32 h-32 bg-black/80 rounded-full border border-white/10 backdrop-blur-md shadow-2xl">
+                         <i data-lucide="${style.icon}" class="w-10 h-10 text-white mb-2"></i>
+                         <p data-i18n="benefit3" class="text-xs text-center text-slate-300 px-2 leading-tight mt-2"></p>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    } else {
+        // Variant 2: Minimalist Cyber (Clean, sharp borders, focus on typography)
+        mainContent = `
+        <div class="flex flex-col items-center text-center w-full max-w-4xl mx-auto" data-aos="fade-up" data-aos-duration="1000">
+            <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent mb-12"></div>
+            
+            <h1 data-i18n="title" data-aos="fade-up" data-aos-delay="200" class="text-5xl md:text-7xl font-bold text-white mb-8 tracking-tighter leading-tight drop-shadow-md pb-2"></h1>
+            <p data-i18n="subtitle" data-aos="fade-up" data-aos-delay="300" class="text-xl md:text-2xl text-slate-400 mb-16 max-w-3xl leading-relaxed font-light"></p>
+            
+            <div class="w-full" data-aos="fade-up" data-aos-delay="400">
+                <a href="${safeCheckoutLink}" class="group relative inline-flex items-center justify-center px-10 py-5 text-lg font-bold text-white transition-all duration-300 ease-in-out hover:scale-[1.02] active:scale-[0.98] w-full md:w-auto">
+                    <div class="absolute inset-0 w-full h-full bg-gradient-to-br ${style.gradient} rounded-2xl opacity-80 group-hover:opacity-100 transition-opacity blur-[2px]"></div>
+                    <div class="absolute inset-[1px] bg-[#0a0a0a] rounded-2xl"></div>
+                    <div class="absolute inset-[1px] bg-gradient-to-br from-white/10 to-transparent rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                    <span class="relative flex items-center space-x-3">
+                        <i data-lucide="${style.icon}" class="w-5 h-5 text-${style.color}-400 group-hover:text-white transition-colors"></i>
+                        <span data-i18n="cta" class="tracking-wide"></span>
+                    </span>
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-0 w-full mt-24 border-t border-b border-white/10 divide-y md:divide-y-0 md:divide-x divide-white/10" data-aos="fade-up" data-aos-delay="600">
+                <div class="py-10 px-6 flex flex-col items-center text-center hover:bg-white/[0.02] transition-colors">
+                    <span class="text-${style.color}-400 font-mono text-sm mb-4">01.</span>
+                    <p data-i18n="benefit1" class="text-slate-300 font-medium text-base leading-relaxed"></p>
+                </div>
+                <div class="py-10 px-6 flex flex-col items-center text-center hover:bg-white/[0.02] transition-colors">
+                    <span class="text-${style.color}-400 font-mono text-sm mb-4">02.</span>
+                    <p data-i18n="benefit2" class="text-slate-300 font-medium text-base leading-relaxed"></p>
+                </div>
+                <div class="py-10 px-6 flex flex-col items-center text-center hover:bg-white/[0.02] transition-colors">
+                    <span class="text-${style.color}-400 font-mono text-sm mb-4">03.</span>
+                    <p data-i18n="benefit3" class="text-slate-300 font-medium text-base leading-relaxed"></p>
+                </div>
+            </div>
+            
+            <div class="w-full h-[1px] bg-gradient-to-r from-transparent via-white/20 to-transparent mt-12 mb-8"></div>
+        </div>`;
+    }
 
     return `<!DOCTYPE html>
 <html lang="${lang}" class="scroll-smooth dark">
@@ -486,7 +642,7 @@ export function generatePageTemplate(pageKey: string, lang: string, index: numbe
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; }
+        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #ededed;}
         
         /* Custom scrollbar */
         ::-webkit-scrollbar { width: 6px; }
@@ -503,7 +659,7 @@ export function generatePageTemplate(pageKey: string, lang: string, index: numbe
         }
         
         .glass-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
@@ -512,285 +668,161 @@ export function generatePageTemplate(pageKey: string, lang: string, index: numbe
     </style>
 </head>
 
-<body class="text-slate-300 selection:bg-${style.color}-500/30 selection:text-white min-h-screen flex flex-col antialiased relative overflow-x-hidden">
-
-    <!-- Background Void Architecture -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#0a0a0a]">
-        <!-- Grid Pattern Overlay -->
-        <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9InJnYmEoMjU1LDI1NSwyNTUsMC4wNykiLz48L3N2Zz4=')] opacity-[0.25] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]"></div>
-        
-        <!-- Ambient Glowing Orbs -->
-        <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full ${style.bgGlow} blur-[120px] animate-float" style="animation-delay: 0s;"></div>
-        <div class="absolute bottom-[-20%] right-[-10%] w-[60%] h-[60%] rounded-full bg-indigo-500/10 blur-[150px] animate-float" style="animation-delay: -3s;"></div>
+<body class="bg-[#0a0a0a] text-slate-200 antialiased min-h-screen flex flex-col relative selection:bg-white/20 selection:text-white overflow-x-hidden">
+    <!-- Ambient Background Glow -->
+    <div class="fixed inset-0 pointer-events-none z-0">
+        <div class="absolute -top-[40%] text-${style.color}-500 -left-[20%] w-[70%] h-[70%] rounded-full blur-[120px] opacity-[0.15] mix-blend-screen ${style.bgGlow}"></div>
+        <div class="absolute top-[60%] -right-[20%] w-[60%] h-[60%] rounded-full blur-[100px] opacity-[0.1] mix-blend-screen bg-indigo-500/10"></div>
     </div>
 
-    <!-- Global Setup for layout.js to know which page we are rendering -->
+    <!-- Grid Pattern overlay -->
+    <div class="fixed inset-0 pointer-events-none z-0 opacity-[0.2]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 40px 40px;"></div>
+
     <script>
-        window.currentPageKey = '${pageKey}'; 
+        // Set the active language BEFORE loading layout.js
+        window.currentLang = "${lang}";
+        window.currentPageKey = "${pageKey}";
     </script>
+    <!-- Include Layout Script (Translations & Setup) -->
+    <script src="layout.js"></script>
 
-    <!-- Header & Language Selector -->
-    <header class="w-full glass-panel border-b border-white/5 sticky top-0 z-40 transition-all duration-300">
-        <div class="max-w-6xl mx-auto px-4 md:px-8 h-14 flex items-center justify-between">
-            <div class="font-bold text-sm tracking-tight flex items-center text-white" data-aos="fade-right" data-aos-duration="600">
-                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse mr-3 shadow-[0_0_8px_rgba(34,197,94,0.6)]"></div>
-                <span class="opacity-80">VERIFIED CHECKOUT</span>
-            </div>
+    <div class="flex-grow flex flex-col relative z-10 selection:bg-${style.color}-500/30 selection:text-white">
+        <!-- Header area (Language Selector) -->
+        <header class="w-full py-6 px-4 md:px-8 absolute top-0 left-0 right-0 z-50">
+            <div class="max-w-6xl mx-auto flex justify-between items-center">
+                <!-- Brand/Logo Area -->
+                <div class="flex items-center space-x-2" data-aos="fade-down" data-aos-delay="100">
+                    <div class="w-8 h-8 rounded-lg bg-gradient-to-br ${style.gradient} flex items-center justify-center p-[1px]">
+                        <div class="w-full h-full bg-[#0a0a0a] rounded-[7px] flex items-center justify-center backdrop-blur-md">
+                            <i data-lucide="${style.icon}" class="w-4 h-4 text-white"></i>
+                        </div>
+                    </div>
+                    <span class="font-bold tracking-tight text-white hidden sm:block">{{COMPANY_NAME}}</span>
+                </div>
 
-            <div class="relative group" data-aos="fade-left" data-aos-duration="600">
-                <button id="langSelectBtn"
-                    class="flex items-center space-x-2 text-xs font-medium text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-md transition-colors cursor-pointer border border-white/5 focus:outline-none ${style.ring}">
-                    <i data-lucide="globe" class="w-3.5 h-3.5"></i>
-                    <span id="currentLangName"></span>
-                    <i data-lucide="chevron-down" class="w-3 h-3 opacity-50"></i>
-                </button>
-                <!-- Dropdown -->
-                <div id="langDropdown"
-                    class="absolute right-0 mt-2 w-36 glass-card rounded-lg opacity-0 invisible transition-all duration-200 z-50 overflow-hidden scale-95 origin-top-right p-1">
-                    <button onclick="setLanguage('fr')" class="w-full px-3 py-2 text-sm text-left text-slate-300 hover:bg-white/10 hover:text-white rounded-md transition-colors">Français</button>
-                    <button onclick="setLanguage('en')" class="w-full px-3 py-2 text-sm text-left text-slate-300 hover:bg-white/10 hover:text-white rounded-md transition-colors">English</button>
-                    <button onclick="setLanguage('pt')" class="w-full px-3 py-2 text-sm text-left text-slate-300 hover:bg-white/10 hover:text-white rounded-md transition-colors">Português</button>
-                    <button onclick="setLanguage('es')" class="w-full px-3 py-2 text-sm text-left text-slate-300 hover:bg-white/10 hover:text-white rounded-md transition-colors">Español</button>
-                    <button onclick="setLanguage('de')" class="w-full px-3 py-2 text-sm text-left text-slate-300 hover:bg-white/10 hover:text-white rounded-md transition-colors">Deutsch</button>
-                    <button onclick="setLanguage('it')" class="w-full px-3 py-2 text-sm text-left text-slate-300 hover:bg-white/10 hover:text-white rounded-md transition-colors">Italiano</button>
+                <!-- Language Selector -->
+                <div class="relative" data-aos="fade-down" data-aos-delay="200">
+                    <button id="langSelectBtn" class="flex items-center space-x-2 glass-panel hover:bg-white/10 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-300">
+                        <i data-lucide="globe" class="w-4 h-4"></i>
+                        <span id="currentLangName">Language</span>
+                        <i data-lucide="chevron-down" class="w-3 h-3 opacity-70"></i>
+                    </button>
+                    <!-- Dropdown -->
+                    <div id="langDropdown" class="absolute right-0 mt-2 w-40 glass-panel border border-white/10 rounded-xl shadow-2xl py-2 invisible opacity-0 scale-95 transition-all duration-200 transform origin-top-right z-50">
+                        <button onclick="setLanguage('fr')" class="w-full px-4 py-2 text-sm text-left text-slate-300 hover:bg-white/10 hover:text-white transition-colors flex items-center"><span class="w-5 mr-2 opacity-50 text-xs">FR</span> Français</button>
+                        <button onclick="setLanguage('en')" class="w-full px-4 py-2 text-sm text-left text-slate-300 hover:bg-white/10 hover:text-white transition-colors flex items-center"><span class="w-5 mr-2 opacity-50 text-xs">EN</span> English</button>
+                        <button onclick="setLanguage('pt')" class="w-full px-4 py-2 text-sm text-left text-slate-300 hover:bg-white/10 hover:text-white transition-colors flex items-center"><span class="w-5 mr-2 opacity-50 text-xs">PT</span> Português</button>
+                        <button onclick="setLanguage('es')" class="w-full px-4 py-2 text-sm text-left text-slate-300 hover:bg-white/10 hover:text-white transition-colors flex items-center"><span class="w-5 mr-2 opacity-50 text-xs">ES</span> Español</button>
+                        <button onclick="setLanguage('de')" class="w-full px-4 py-2 text-sm text-left text-slate-300 hover:bg-white/10 hover:text-white transition-colors flex items-center"><span class="w-5 mr-2 opacity-50 text-xs">DE</span> Deutsch</button>
+                        <button onclick="setLanguage('it')" class="w-full px-4 py-2 text-sm text-left text-slate-300 hover:bg-white/10 hover:text-white transition-colors flex items-center"><span class="w-5 mr-2 opacity-50 text-xs">IT</span> Italiano</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- Main Content -->
-    <main class="flex-1 w-full max-w-5xl mx-auto px-4 py-16 md:py-24 flex flex-col items-center justify-center relative z-10">
-        
-        <!-- Hero Aura Card -->
-        <div class="glass-card rounded-3xl p-8 md:p-16 w-full relative overflow-hidden group" data-aos="fade-up" data-aos-duration="1000">
-            
-            <!-- Diagonal structural shine -->
-            <div class="absolute inset-0 bg-gradient-to-tr from-white/[0.02] via-transparent to-white/[0.08] pointer-events-none"></div>
+        <!-- Main Content -->
+        <main class="flex-grow flex items-center justify-center p-4 md:p-8 pt-24 md:pt-32 pb-20">
+            <div class="max-w-6xl w-full mx-auto">
+                ${mainContent}
+            </div>
+        </main>
 
-            <div class="relative z-10 flex flex-col items-center text-center">
+        <!-- Footer Void Aesthetics -->
+        <footer class="w-full border-t border-white/5 bg-[#0a0a0a]/80 backdrop-blur-xl relative z-20 mt-auto">
+            <div class="max-w-6xl mx-auto px-4 md:px-8 py-12 md:py-16">
+                <!-- Legal Links Row -->
+                <div class="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 mb-10 pb-10 border-b border-white/5">
+                    <button onclick="openModal('terms')" class="text-sm font-medium text-slate-400 hover:text-white transition-colors" data-i18n="termsLink"></button>
+                    <button onclick="openModal('privacy')" class="text-sm font-medium text-slate-400 hover:text-white transition-colors" data-i18n="privacyLink"></button>
+                    <button onclick="openModal('refund')" class="text-sm font-medium text-slate-400 hover:text-white transition-colors" data-i18n="refundLink"></button>
+                    <button onclick="openModal('warning')" class="text-sm font-medium text-slate-400 hover:text-white transition-colors" data-i18n="warningLink"></button>
+                </div>
                 
-                <!-- Floating Icon Emblem -->
-                <div data-aos="zoom-in" data-aos-delay="200" data-aos-duration="600"
-                    class="relative w-16 h-16 md:w-20 md:h-20 flex items-center justify-center mb-8">
-                    <div class="absolute inset-0 rounded-2xl bg-gradient-to-br ${style.gradient} opacity-20 blur-md"></div>
-                    <div class="relative flex items-center justify-center w-full h-full rounded-2xl bg-gradient-to-br ${style.gradient} border border-white/20 shadow-2xl p-[1px]">
-                        <div class="absolute inset-0 rounded-2xl bg-black/20 backdrop-blur-sm"></div>
-                        <i data-lucide="${style.icon}" class="w-8 h-8 md:w-10 md:h-10 text-white relative z-10 drop-shadow-md"></i>
+                <!-- Disclaimer Text from TS layout -->
+                <div class="max-w-4xl mx-auto text-center space-y-6">
+                    <div class="text-xs text-slate-500 leading-relaxed font-light" data-i18n="footerDisclaimer">
+                        <!-- Filled by JS -->
                     </div>
-                </div>
-
-                <!-- Typographic Mastery -->
-                <h1 data-i18n="title" data-aos="fade-up" data-aos-delay="300"
-                    class="text-4xl md:text-5xl lg:text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 mb-6 tracking-tighter leading-[1.1] max-w-4xl drop-shadow-sm">
-                </h1>
-
-                <p data-i18n="subtitle" data-aos="fade-up" data-aos-delay="400"
-                    class="text-lg md:text-xl text-slate-400 mb-14 max-w-2xl leading-relaxed font-medium tracking-tight">
-                </p>
-
-                <!-- Bento Grid Benefits -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-16 w-full" data-aos="fade-up" data-aos-delay="500">
-                    <div class="relative p-[1px] rounded-2xl overflow-hidden group/bento bg-gradient-to-b from-white/10 to-transparent hover:from-white/20 transition-all duration-500">
-                        <div class="absolute inset-0 bg-[#0a0a0a] rounded-2xl m-[1px]"></div>
-                        <div class="relative bg-white/[0.02] backdrop-blur-sm h-full rounded-2xl p-6 text-left hover:bg-white/[0.04] transition-colors">
-                            <div class="bg-white/10 w-10 h-10 rounded-xl flex items-center justify-center mb-4 border border-white/5 group-hover/bento:scale-110 group-hover/bento:bg-white/20 transition-all duration-300">
-                                <i data-lucide="check" class="w-5 h-5 text-white"></i>
-                            </div>
-                            <p data-i18n="benefit1" class="text-slate-300 font-medium text-sm leading-relaxed"></p>
-                        </div>
-                    </div>
-
-                    <div class="relative p-[1px] rounded-2xl overflow-hidden group/bento bg-gradient-to-b from-white/10 to-transparent hover:from-white/20 transition-all duration-500" data-aos="fade-up" data-aos-delay="600">
-                        <div class="absolute inset-0 bg-[#0a0a0a] rounded-2xl m-[1px]"></div>
-                        <div class="relative bg-white/[0.02] backdrop-blur-sm h-full rounded-2xl p-6 text-left hover:bg-white/[0.04] transition-colors">
-                            <div class="bg-white/10 w-10 h-10 rounded-xl flex items-center justify-center mb-4 border border-white/5 group-hover/bento:scale-110 group-hover/bento:bg-white/20 transition-all duration-300">
-                                <i data-lucide="shield" class="w-5 h-5 text-white"></i>
-                            </div>
-                            <p data-i18n="benefit2" class="text-slate-300 font-medium text-sm leading-relaxed"></p>
-                        </div>
-                    </div>
-
-                    <div class="relative p-[1px] rounded-2xl overflow-hidden group/bento bg-gradient-to-b from-white/10 to-transparent hover:from-white/20 transition-all duration-500" data-aos="fade-up" data-aos-delay="700">
-                        <div class="absolute inset-0 bg-[#0a0a0a] rounded-2xl m-[1px]"></div>
-                        <div class="relative bg-white/[0.02] backdrop-blur-sm h-full rounded-2xl p-6 text-left hover:bg-white/[0.04] transition-colors">
-                            <div class="bg-white/10 w-10 h-10 rounded-xl flex items-center justify-center mb-4 border border-white/5 group-hover/bento:scale-110 group-hover/bento:bg-white/20 transition-all duration-300">
-                                <i data-lucide="zap" class="w-5 h-5 text-white"></i>
-                            </div>
-                            <p data-i18n="benefit3" class="text-slate-300 font-medium text-sm leading-relaxed"></p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Animated Shimmer CTA Button -->
-                <div data-aos="zoom-in" data-aos-delay="800" class="w-full flex flex-col items-center">
-                    <a href="${safeCheckoutLink}" 
-                        class="relative inline-flex h-16 w-full md:w-auto overflow-hidden rounded-full p-[2px] focus:outline-none hover:scale-[1.02] active:scale-[0.98] transition-transform duration-300 ${style.shadow} shadow-2xl group">
-                        
-                        <!-- Rotating Gradient Border -->
-                        <span class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)] opacity-70 group-hover:opacity-100 transition-opacity duration-300"></span>
-                        
-                        <!-- Button Body -->
-                        <span class="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-8 py-2 md:px-12 text-lg font-bold text-white backdrop-blur-3xl border border-white/10 relative z-10">
-                            <span data-i18n="cta" class="tracking-wide"></span>
-                            <i data-lucide="arrow-right" class="ml-3 w-5 h-5 group-hover:translate-x-1.5 transition-transform duration-300"></i>
-                        </span>
-                    </a>
                     
-                    <div class="mt-8 flex items-center justify-center space-x-2 text-sm text-slate-500 font-medium">
-                        <i data-lucide="lock" class="w-4 h-4 text-emerald-400"></i>
-                        <span>End-to-end encrypted checkout</span>
+                    <div class="text-[10px] uppercase tracking-widest text-slate-600 font-semibold" data-i18n="footerNote">
+                        <!-- Filled by JS -->
                     </div>
                 </div>
-            </div>
-        </div>
-    </main>
 
-    <!-- Footer Void Aesthetics -->
-    <footer class="border-t border-white/5 bg-[#0a0a0a] text-slate-500 py-16 px-4 font-sans mt-auto relative z-10">
-        <div class="max-w-6xl mx-auto flex flex-col gap-16">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <!-- Legal -->
-                <div data-aos="fade-up" data-aos-offset="0">
-                    <h4 data-i18n="legalTitle" class="text-white font-semibold mb-6 text-sm uppercase tracking-widest">Legal</h4>
-                    <ul class="space-y-4 text-sm font-medium">
-                        <li><button onclick="openModal('terms')" data-i18n="termsLink" class="hover:text-white transition-colors cursor-pointer text-left"></button></li>
-                        <li><button onclick="openModal('privacy')" data-i18n="privacyLink" class="hover:text-white transition-colors cursor-pointer text-left"></button></li>
-                        <li><button onclick="openModal('refund')" data-i18n="refundLink" class="hover:text-white transition-colors cursor-pointer text-left"></button></li>
-                        <li><button onclick="openModal('warning')" data-i18n="warningLink" class="hover:text-white transition-colors cursor-pointer text-left"></button></li>
-                    </ul>
-                </div>
-
-                <!-- Contact -->
-                <div data-aos="fade-up" data-aos-delay="100" data-aos-offset="0">
-                    <h4 data-i18n="contactTitle" class="text-white font-semibold mb-6 text-sm uppercase tracking-widest">Contact</h4>
-                    <ul class="space-y-4 text-sm font-medium">
-                        <li>
-                            <a href="mailto:{{COMPANY_EMAIL}}" class="hover:text-white transition-colors flex items-center group">
-                                <span class="bg-white/5 p-2 rounded-md mr-3 border border-white/5 group-hover:bg-white/10 transition-colors">
-                                    <i data-lucide="mail" class="w-4 h-4 text-slate-400"></i>
-                                </span> 
-                                {{COMPANY_EMAIL}}
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- Company Info -->
-                <div data-aos="fade-up" data-aos-delay="200" data-aos-offset="0">
-                    <h4 data-i18n="companyInfoTitle" class="text-white font-semibold mb-6 text-sm uppercase tracking-widest">Company Info</h4>
-                    <ul class="space-y-3 text-sm text-slate-400">
-                        <li class="font-medium text-slate-300">{{COMPANY_NAME}}</li>
-                        <li>{{COMPANY_ID}}</li>
-                        <li class="flex items-start pt-2">
-                            <i data-lucide="map-pin" class="w-4 h-4 mr-2 mt-0.5 opacity-60 shrink-0"></i>
-                            <span class="leading-relaxed">{{COMPANY_ADDRESS}}<br>CEP: {{COMPANY_CEP}}</span>
-                        </li>
-                    </ul>
+                <div class="mt-12 text-center flex flex-col items-center">
+                    <div class="w-12 h-[1px] bg-white/20 mb-6"></div>
+                    <p class="text-xs text-slate-600 font-medium tracking-wide">&copy; 2026 {{COMPANY_NAME}}. All rights reserved.</p>
                 </div>
             </div>
+        </footer>
+    </div>
 
-            <div class="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-
-            <!-- Disclaimers -->
-            <div class="space-y-6 text-xs text-slate-500 leading-relaxed text-justify md:text-center max-w-5xl mx-auto" data-aos="fade-up" data-aos-delay="300" data-aos-offset="0">
-                <p data-i18n="footerDisclaimer"></p>
-                <div data-i18n="footerNote" class="bg-white/[0.02] border border-white/5 rounded-xl p-5 mt-4 inline-block w-full text-slate-400 font-medium tracking-wide"></div>
-            </div>
-            
-            <div class="text-center text-sm text-slate-600 pt-8 flex flex-col items-center justify-center space-y-2 font-medium tracking-wide">
-                <p class="flex items-center"><i data-lucide="copyright" class="w-4 h-4 mr-1.5 opacity-40"></i> 2026 {{COMPANY_NAME}}. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
-
-    
-    <!-- Modal Drawer Layout with Blur -->
-    <div id="legalModal"
-        class="fixed inset-0 z-[100] hidden items-center justify-center p-4 sm:p-6 bg-slate-950/80 backdrop-blur-md transition-all duration-300 opacity-0">
-        <div class="absolute inset-0 cursor-pointer" onclick="closeModal()"></div>
-        <div
-            class="relative bg-[#0a0a0a] border border-white/10 w-full max-w-2xl max-h-[85vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden transform scale-95 transition-transform duration-300" id="modalWindow">
-            <div class="flex items-center justify-between px-6 py-5 border-b border-white/10 bg-white/5">
-                <h3 id="modalTitle" class="text-lg font-bold text-white tracking-tight">Title</h3>
-                <button onclick="closeModal()"
-                    class="p-2 text-slate-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors focus:outline-none">
-                    <i data-lucide="x" class="w-4 h-4"></i>
+    <!-- Legal Modals overlay (hidden by default) -->
+    <div id="legalModal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md hidden items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+        <div class="bg-[#111] border border-white/10 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh] transform scale-95 transition-transform duration-300" id="modalDialog">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b border-white/10 bg-[#151515]">
+                <h3 id="modalTitle" class="text-xl font-bold text-white">Legal Information</h3>
+                <button onclick="closeModal()" class="text-slate-400 hover:text-white hover:bg-white/10 p-2 rounded-full transition-colors focus:outline-none ring-0">
+                    <i data-lucide="x" class="w-5 h-5"></i>
                 </button>
             </div>
-            <div id="modalContent" class="p-6 md:p-8 overflow-y-auto text-slate-400 text-sm leading-relaxed custom-scrollbar bg-[#0a0a0a] prose prose-invert max-w-none">
+            <!-- Modal Body -->
+            <div id="modalContent" class="p-6 md:p-8 overflow-y-auto text-sm text-slate-300 leading-relaxed prose prose-invert max-w-none">
                 <!-- Content injected here -->
             </div>
-            <div class="p-5 border-t border-white/10 bg-white/5 flex justify-end">
-                <button onclick="closeModal()" id="modalCloseText"
-                    class="px-6 py-2.5 text-sm font-semibold bg-white text-[#0a0a0a] rounded-lg hover:bg-slate-200 transition-colors shadow-sm focus:outline-none">
-                    Close
+            <!-- Modal Footer -->
+            <div class="p-6 border-t border-white/10 bg-[#151515] flex justify-end">
+                 <button onclick="closeModal()" class="px-6 py-2 bg-white/10 hover:bg-white/20 text-white rounded-xl font-medium transition-colors focus:outline-none">
+                    <span id="modalCloseText">Close</span>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Additional Animations Setup -->
-    <style>
-        /* Modal Transition classes */
-        .modal-active {
-            opacity: 1 !important;
-        }
-        .modal-active #modalWindow {
-            transform: scale(1) !important;
-        }
-        
-        .prose strong { color: #f8fafc; font-weight: 600; }
-        .prose h2 { color: #f8fafc; margin-bottom: 0.75em; margin-top: 1.5em; font-weight: 700; tracking: tight; }
-    </style>
-
-    <!-- Scripts -->
-    <script src="layout.js"></script>
+    <!-- Init AOS and Lucide Icons -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Init Icons
-        lucide.createIcons();
-        
-        // Init AOS
-        AOS.init({
-            once: true,
-            offset: 50,
-            easing: 'ease-out-cubic',
-        });
-        
-        // Overwrite modal logic to use new animation classes
-        window.openModal = function(modalKey) {
-            const modalOverlay = document.getElementById('legalModal');
-            const modalTitle = document.getElementById('modalTitle');
-            const modalContent = document.getElementById('modalContent');
-            const data = legalTexts[modalKey];
-
-            if (modalOverlay && data) {
-                modalTitle.textContent = data.title;
-                modalContent.innerHTML = data.content;
-
-                modalOverlay.classList.remove('hidden');
-                modalOverlay.classList.add('flex');
-                
-                // Request animation frame for smooth transition
-                requestAnimationFrame(() => {
-                    modalOverlay.classList.add('modal-active');
-                });
-            }
-        };
-
-        window.closeModal = function() {
-            const modalOverlay = document.getElementById('legalModal');
-            if (modalOverlay) {
-                modalOverlay.classList.remove('modal-active');
-                setTimeout(() => {
-                    modalOverlay.classList.add('hidden');
-                    modalOverlay.classList.remove('flex');
-                }, 300);
-            }
-        };
-        
-        // Handle Lang Dropdown visually
         document.addEventListener('DOMContentLoaded', () => {
+            lucide.createIcons();
+            AOS.init({
+                once: true,
+                offset: 50,
+            });
+
+            // Smooth modal animation
+            const modalOverlay = document.getElementById('legalModal');
+            const modalDialog = document.getElementById('modalDialog');
+            
+            // Re-bind click outside to close
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+            
+            // Expose a globally enhanced openModal that handles the scale animation
+            const originalOpenModal = window.openModal;
+            window.openModal = function(key) {
+                if(originalOpenModal) originalOpenModal(key);
+                setTimeout(() => {
+                    if(modalDialog) {
+                         modalDialog.classList.remove('scale-95');
+                         modalDialog.classList.add('scale-100');
+                    }
+                }, 10);
+            }
+
+            const originalCloseModal = window.closeModal;
+            window.closeModal = function() {
+                 if(modalDialog) {
+                     modalDialog.classList.remove('scale-100');
+                     modalDialog.classList.add('scale-95');
+                 }
+                 if(originalCloseModal) originalCloseModal();
+            }
+            
+            // Language Select Visual Toggle
             const langBtn = document.getElementById('langSelectBtn');
             const langDropdown = document.getElementById('langDropdown');
 
@@ -817,4 +849,3 @@ export function generatePageTemplate(pageKey: string, lang: string, index: numbe
 </body>
 </html>`;
 }
-
